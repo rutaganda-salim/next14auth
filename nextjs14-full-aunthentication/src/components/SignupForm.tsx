@@ -8,13 +8,14 @@ import validator, { isMobilePhone } from "validator";
 const FormSchema = z.object(
     {
         firstName: z.string()
-            .min(2, "First Name must be atleast 2 characters")
-            .max(45, "First Name must be less than 45 characters").regex(new RegExp("^[a-za-Z]+$", "No Special Character allowed!")),
-
+            .min(2, "First Name must be at least 2 characters")
+            .max(45, "First Name must be less than 45 characters")
+            .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed!"),
 
         lastName: z.string()
-            .min(2, "Last Name must be atleast 2 characters")
-            .max(45, "Last Name must be less than 45 characters").regex(new RegExp("^[a-za-Z]+$", "No Special Character allowed!")),
+            .min(2, "Last Name must be at least 2 characters")
+            .max(45, "Last Name must be less than 45 characters")
+            .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed!"),
 
         email: z
             .string()
@@ -54,7 +55,9 @@ const SignupForm = () => {
     const { register, handleSubmit, reset } = useForm<InputType>();
     const [isVisiblePass, setIsVisiblePass] = useState(false);
     const toggleVisiblePass = () => setIsVisiblePass((prev) => !prev);
-    const saveUser: SubmitHandler<InputType> = async (data)
+    const saveUser: SubmitHandler<InputType> = async (data) => {
+        console.log({ data })
+    }
 
     return (
         <form onSubmit={handleSubmit(saveUser)} className="grid grid-cols-2 gap-3 p-2 place-self-stretch shadow border rounded-md">
