@@ -15,6 +15,8 @@
     "@prisma/client": "^5.15.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
+    "check-password-strength": "^2.0.10",
+    "clsx-tailwind-merge": "^1.0.4",
     "framer-motion": "^11.2.10",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
