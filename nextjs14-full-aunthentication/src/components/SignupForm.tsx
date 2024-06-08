@@ -3,7 +3,7 @@ import { Checkbox, Input, Link, Button } from "@nextui-org/react";
 import { EnvelopeIcon, EyeIcon, EyeSlashIcon, KeyIcon, PhoneIcon, UserIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { z } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import validator, { isMobilePhone } from "validator";
 const FormSchema = z.object(
     {
@@ -52,7 +52,7 @@ const FormSchema = z.object(
 type InputType = z.infer<typeof FormSchema>
 
 const SignupForm = () => {
-    const { register, handleSubmit, reset } = useForm<InputType>();
+    const { register, handleSubmit, reset, control } = useForm<InputType>();
     const [isVisiblePass, setIsVisiblePass] = useState(false);
     const toggleVisiblePass = () => setIsVisiblePass((prev) => !prev);
     const saveUser: SubmitHandler<InputType> = async (data) => {
@@ -107,9 +107,13 @@ const SignupForm = () => {
                 type={isVisiblePass ? "text" : "password"}
                 startContent={<KeyIcon className="w-4" />}
             />
-            <Checkbox {...register("accepted")} className="col-span-2">
-                I Accept The <Link href="/terms">Terms</Link>
-            </Checkbox>
+            <Controller control={control} name="accepted" render={({field}) => (
+
+                <Checkbox onChange={field.onChange} onBlur={field.onBlur} className="col-span-2">
+                    I Accept The <Link href="/terms">Terms</Link>
+                </Checkbox>
+            )} />
+
 
             <div className="flex justify-center col-span-2">
                 <Button type="submit" color="primary" className="w-48">Submit</Button>
