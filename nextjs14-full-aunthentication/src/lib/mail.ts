@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer";
+import Handlebars from 'handlebars';
+import { ActivationTemplate } from "./emailTemplates/activation";
+
 
 export async function sendMail({ to, subject, body }: { to: string; subject: string; body: string; }) {
     const { SMTP_EMAIL, SMTP_GMAIL_PASS, SMTP_PASS, SMTP_USER } = process.env;
@@ -32,4 +35,12 @@ export async function sendMail({ to, subject, body }: { to: string; subject: str
   }
 
    
+}
+export function compileActivationTemplate(name:string,url:string){
+    const template = Handlebars.compile(ActivationTemplate);
+    const htmlBody = template({
+        name,
+        url,
+    });
+    return htmlBody;
 }
