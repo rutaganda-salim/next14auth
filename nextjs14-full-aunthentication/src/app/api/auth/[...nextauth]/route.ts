@@ -5,6 +5,10 @@ import * as bcrypt from "bcrypt";
 import NextAuth from "next-auth/next";
 
 export const authOptions: AuthOptions = {
+    pages: {
+        signIn: "/auth/signin"
+    },
+
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -30,24 +34,24 @@ export const authOptions: AuthOptions = {
                 if (!user) throw new Error("Username or password is not correct");
 
                 if (!credentials?.password) throw new Error("Please provide your password");
-                
+
                 const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
 
                 if (!isPasswordCorrect) throw new Error("Username or password is not correct");
 
                 // If the user is found and password is correct, return the user object
-                const {password, ...userWithoutPass}  = user;
+                const { password, ...userWithoutPass } = user;
                 return userWithoutPass;
             },
         }),
     ],
     callbacks: {
-        async jwt({token,user}){
+        async jwt({ token, user }) {
             if (user) token.user = user as User;
             return token;
         },
 
-        async session({token, session}) {
+        async session({ token, session }) {
             session.user = token.user
             return session;
         },
@@ -57,5 +61,5 @@ export const authOptions: AuthOptions = {
 
 const handler = NextAuth(authOptions);
 
-export {handler as GET , handler as POST};
+export { handler as GET, handler as POST };
 
